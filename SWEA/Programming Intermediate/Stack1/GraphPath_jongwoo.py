@@ -1,31 +1,29 @@
 t = int(input())
 
-def search(v, ve_dict):
-    if v not in ve_dict.keys(): # 해당노드에서 경로가 존재하지 않는 경우
-        if len(stack) == 0: # 돌아갈 곳 없으면 (시작지점)
-            return False # 불가능
-        else: # 돌아갈 곳 있으면
-            return search(pop(), ve_dict) # 그 전 노드에서 재탐색
+def search(v):
+    global ve_dict
+
+    if v not in ve_dict.keys():
+        if len(stack) == 0:
+            return False
+        else:
+            return search(pop())
     else:
-        if v not in visit: # 방문한적 없는 노드인경우 기록에 추가
+        if v not in visit:
             visit.append(v)
             push(v)
-        for _e in ve_dict[v]: # 해당 노드에서 방문할 수 있는 노드들 탐색
-            if _e == G: # 방문할 수 있는 노드에 목적지가 있으면
-                return True # 가능
-            elif _e not in visit: # 방문할 수 있는 노드가 가본적 없는경우
+        for _e in ve_dict[v]:
+            if _e == G:
+                return True
+            elif _e not in visit:
                 visit.append(_e)
                 push(_e)
-                return search(_e, ve_dict) # 기록에 추가하고 탐색
+                return search(_e)
 
-        if v == S or len(stack) == 0:
-            # 시작지점으로 돌아와 더이상 가볼 곳 없거나
-            # 방문할 수 있는곳도, 돌아갈 곳도 없을 때
-            return False # 불가능
+        if len(stack) == 0:
+            return False
         else:
-            # 갈 수 있는곳은 다 가본 경우
-            # 그 전으로 돌아가 재탐색
-            return search(pop(), ve_dict)
+            return search(pop())
 
 def push(value):
     global top
@@ -68,7 +66,7 @@ for _t in range(1, t + 1):
     if S not in ve_dict.keys(): # 시작지점에서 경로가 없는경우
         print('#{} {}'.format(_t, 0))
     else:
-        if search(S, ve_dict): 
+        if search(S): 
             print('#{} {}'.format(_t, 1))
         else:
             print('#{} {}'.format(_t, 0))
