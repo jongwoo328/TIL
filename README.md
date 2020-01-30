@@ -20,9 +20,9 @@
 >
 > Stack1
 >
-> Stack2 (진행중)
-
-> 
+> Stack2 
+>
+> **Queue** (진행중)
 
 ## Web & Python
 
