@@ -4,7 +4,7 @@
 
 1. 미리 구조화 한 후 코드로 구현하기
 
-> 2020 - 10 - 20 	start
+> 2020 - 01 - 20 	start
 
 
 
@@ -22,7 +22,9 @@
 >
 > Stack2 
 >
-> **Queue** (진행중)
+> Queue
+>
+> **Linked List** (진행중)
 
 ## Web & Python
 
