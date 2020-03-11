@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #px{font-size: 16px;}
+        #rem{font-size: 1rem;}
+        h2{color: green}
+        b{color: purple}
+    </style>
+</head>
+<body>
+    <h1>FONT SIZE</h1>
+    <h2>사용 단위</h2>
+    <ol>
+        <li>px</li>
+        <li>em</li>
+        <li>rem</li>
+    </ol>
+    <p>px는 절대적인 크기, em, rem은 상대적인 크기를 나타냄<br>
+    다른 단위를 쓸 이유가 없다면 rem을 쓰자! <br>
+    <b>fonr 크기를 사용자가 조정할 수 있기 때문!</b></p>
+    <p>-> 웹 접근성을 고려</p>
+    <h2>실습</h2>
+    <div id="px">PX (16px)</div>
+    <div id="rem">REM (1rem)</div>
+    <p>사용자가 브라우저 설정에서 폰트 크기를 조정하게 되면</p>
+    <ul>
+        <li>px는 고정</li>
+        <li>rem은 변함</li>
+    </ul>
+    <p>html 태그의 기본 font-size가 16px이기 때문에 1rem을 사용하면 16px로 보여짐.<br> 
+        따라서 브라우저의 폰트 사이즈를 바꾸게 되면 html 태그의 font-size가 바뀌기 때문에 1rem으로 설정한 텍스트의 크기도 같이 바뀌게 됨</p>
+    
+</body>
+</html>

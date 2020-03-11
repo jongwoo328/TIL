@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* :link 는 링크된 경우 적용*/
+        a:link{
+            color: black;
+        }
+        /* :visited 는 방문한 링크인 경우 적용
+        visited 는 보안문제로 인해서 속성이 제한되어있음 */
+        a:visited{
+            color: red;
+        }
+        /* :active는 마우스를 클릭 한 순간에만 적용 */
+        a:active{
+            color: green;
+        }
+        /* :hover는 마우스를 올려놓은 순간에만 적용 */
+        a:hover{
+            color: yellow;
+        }
+        /* :focus는 해당 요소가 focusing 되었을 때 적용 
+        보통 가장 마지막에 선언한다 */
+        a:focus{
+            color: white;
+        }
+        input:focus{
+            background-color: black;
+            color: white
+        }
+    </style>
+</head>
+<body>
+    <a href="https://naver.com">방문함</a>
+    <a href="https://a.a">방문안함</a>
+    <input type="text">
+</body>
+</html>

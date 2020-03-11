@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p{
+            font-family: arial, verdana, "Helvetica Neue", monospace;
+            line-height: 1.6;
+        }
+        .listtop{list-style-type: none;}
+        .serif{font-family: serif;}
+        .sans-serif{font-family: sans-serif}
+        .monospace{font-family: monospace}
+        .fantasy{font-family: fantasy;}
+        .cursive{font-family: cursive}
+        #lh2{line-height: 2}
+        blockquote{
+            font-family: monospace;
+            font-size: 1.2rem
+        }
+    </style>
+</head>
+<body>
+    <h1>FONT</h1>
+    <ol>
+        <h2><li>Font Family</li></h2>
+        <p>글꼴을 지정할 때 font-family를 사용
+            <br>해당 문서는 font-family: arial, verdana, "Helvetica Neue", monospace;로 설정됨
+            <br>이 경우 앞에서 부터 순서대로 먼저 존재하는 글꼴을 사용한다.
+            <br>모든 글꼴이 없을 수 있으므로, 마지막에는 특정 글꼴이 아닌 글꼴분류이름을 사용한다
+        </p>
+        <ul>
+            <li class="listtop" style="font-family: arial; font-size: 18px; font-weight: bold">글꼴 분류</li>
+            <li class="serif">serif : 장식이 존재하는 글꼴</li>
+            <li class="sans-serif">sans-serif : 장식이 없는 글꼴</li>
+            <li class="monospace">monospace : 고정폭 글꼴</li>
+            <li class="fantasy">fantasy : 화려한 글꼴</li>
+            <li class="cursive">cursive : 필기계열의 글꼴</li>
+        </ul>
+        <h2><li>Font Weight</li></h2>
+        <p>글꼴의 두께를 지정. 숫자로 지정할 수 있지만 보통 bold를 주로 사용</p>
+        <h2><li>Line Height</li></h2>
+        <p style="line-height: 1.2;">행간을 조정함. 기본값은 1.2 <br> 행간을 조정함. 기본값은 1.2</p>
+        <p id="lh2">행간을 조정함. line-height: 2 <br> 행간을 조정함. line-height: 2</p>
+        <h2><li>Font</li></h2>
+        <p>font의 여러 속성을 한번에 표현함 <br> 
+        font-style, font-variant, font-weight, font-size, line-height, font-family, ... 순서이고 <br>
+        font-size와 font-family는 필수적으로 포함되어야 함</p>
+        <blockquote>font: bold, 2rem, airal, serif</blockquote>
+        <p>위 예시처럼 사용할 수 있음</p>
+    </ol>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            margin: 10px;
+            width: 200px;
+        }
+        .small{
+            border: 10px solid black;
+        }
+        .large{
+            border: 30px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Box Sizing</h1>
+    <div class="small">div small</div>
+    <div class="large">div large</div>
+    <p>div width는 200px로 동일, border 두께가 다름</p>
+    <div class="small" style="box-sizing: border-box;">div small</div>
+    <div class="large" style="box-sizing: border-box;">div large</div>
+    <p>box-sizing: border-box 로 설정한 경우 <br>
+    box를 포함하여 너비를 맞춰줌</p>
+</body>
+</html>
