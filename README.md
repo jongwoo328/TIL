@@ -8,7 +8,9 @@
 
 
 
-## SWEA
+## 1. Python
+
+### SWEA
 
 > ### Programming Intermediate
 >
@@ -26,13 +28,11 @@
 >
 > **Linked List** (진행중)
 
-## Web & Python
+## 2. Web 
 
+> HTML
+>
+> CSS
 
-
-## Algorithm
-
-
-
-## Computer Science
+## 3. Computer Science
 
