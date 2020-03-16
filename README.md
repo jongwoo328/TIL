@@ -33,6 +33,8 @@
 > HTML
 >
 > CSS
+>
+> Javascript
 
 ## 3. Computer Science
 
