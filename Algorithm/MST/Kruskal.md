@@ -8,7 +8,7 @@
 
 ## 1. 알고리즘 설명
 
-![kruskal1](./images/kruskal1.jpg)
+[kruskal1](./images/kruskal1.jpg)
 
 
 
