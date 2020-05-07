@@ -4,11 +4,11 @@
 
 각 간선의 비용을 정렬한 뒤 탐욕적 방식(Greedy Algorithm)으로 해답을 찾는다.
 
-즉, 비용이 적은 간선부터 검사하여 cycle을 형성하지 않는 간선만 MST에 포함시킨다. 이 때 cycle을 형성하는가는 [UnionFind](../Union Find/Union Find.md)를 사용하면 빠르다.
+즉, 비용이 적은 간선부터 검사하여 cycle을 형성하지 않는 간선만 MST에 포함시킨다. 이 때 cycle을 형성하는가는 [UnionFind][../Union Find/Union Find.md]를 사용하면 빠르다.
 
 ## 1. 알고리즘 설명
 
-[kruskal1](./images/kruskal1.jpg)
+![kruskal1](./images/kruskal1.jpg)
 
 
 
