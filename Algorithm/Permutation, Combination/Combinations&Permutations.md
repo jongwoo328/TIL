@@ -184,9 +184,7 @@ def permutation_multi(n, result):
         print(result)
     else:
         for i in range(len(data)):
-            bit[i] = True
             permutation_multi(n, result + [data[i]])
-            bit[i] = False
 ```
 
 
@@ -212,20 +210,20 @@ def permutation_multi(n, result):
 그렇기 때문에 전에 했던 부분집합 만들기에서 그 원소의 개수가 원하는 수가 되었을 때 처리해 주면 된다.
 
 ```python
-def comb(k, r, n, result):
-    if k >= n:
-        return
+def comb(k, n, r, result):
     if len(result) == r:
         # 결과 수행
         print(result)
+        return
+    if k >= n:
+        return
     else:
-        comb(k+1, r, n, result)
-        comb(k+1, r, n, result+[data[k]])
+        comb(k+1, n, r, result)
+        comb(k+1, n, r, result+[data[k]])
 
 data = [1, 2, 3, 4, 5]
-bit = [False for i in range(len(data))]
 
-comb(0, 3, 5, [])
+comb(0, 5, 4, [])
 ```
 
 위 `comb()`함수는 인자로 `k`,`r`, `n`, `result` 를 받는데
@@ -241,10 +239,11 @@ comb(0, 3, 5, [])
 
 
 ```
-[2, 3, 4]
-[1, 3, 4]
-[1, 2, 4]
-[1, 2, 3]
+[2, 3, 4, 5]
+[1, 3, 4, 5]
+[1, 2, 4, 5]
+[1, 2, 3, 5]
+[1, 2, 3, 4]
 ```
 
 
@@ -254,4 +253,42 @@ comb(0, 3, 5, [])
 
 
 ## 4. 중복조합
+
+서로 다른 n 개의 원소에서 **순서를 고려하지 않고** **중복을 허용하여** r 개의 원소를 뽑는 것.
+
+이 경우는 조합에서 아직 거치지 않은 원소를 한번씩 포함시켜주는 반복문을 추가하면 된다.
+
+
+
+```python
+def comb_rep(n, r, k, index, result):
+    if k == r:
+        print(result)
+        return
+    
+    for i in range(index, n):
+        comb_rep(n, r, k+1, i, result+[data[i]])
+
+data = [1, 2, 3]
+n = len(data)
+r = n
+comb_rep(n, r, 0, 0, [])
+```
+
+인자에 `index`가 추가되었기 때문에 항상 뽑히는 데이터에서  `k`보다 큰 인덱스만 뽑아올 수 있기때문에 중복조합이 구현된다.
+
+
+
+```
+[1, 1, 1]
+[1, 1, 2]
+[1, 1, 3]
+[1, 2, 2]
+[1, 2, 3]
+[1, 3, 3]
+[2, 2, 2]
+[2, 2, 3]
+[2, 3, 3]
+[3, 3, 3]
+```
 
