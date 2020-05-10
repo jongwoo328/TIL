@@ -306,13 +306,13 @@ def kmp(keyword, table, reference):
             r += 1
             k += 1
             if k == len_k:
-             index.append(r-k)
-             k = table[k-1]
+                index.append(r-k)
+                k = table[k-1]
         else:
-         if k:
-          k = table[k-1]
-         else:
-          r += 1
+            if k:
+                k = table[k-1]
+            else:
+                r += 1
                 
     return index
 ```
@@ -356,13 +356,13 @@ def kmp(keyword, table, reference):
             r += 1
             k += 1
             if k == len_k:
-           			index.append(r-k)
-            		k = table[k-1]
+                index.append(r-k)
+                k = table[k-1]
         else:
-        		if k:
+            if k:
                 k = table[k-1]
             else:
-              	r += 1
+                r += 1
                 
     return index
 ```
