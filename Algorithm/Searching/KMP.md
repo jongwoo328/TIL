@@ -88,7 +88,7 @@ KMP알고리즘은 DP를 이용해 찾고자 하는 패턴 내에서 각 부분 
 
 `j = 0`
 
-이 때 `pattern[i] != pattenr[j]` 이므로
+이 때 `pattern[i] != pattern[j]` 이므로
 
 :arrow_right: `p[1] = p[0] + 0` 
 
