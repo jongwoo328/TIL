@@ -1,4 +1,4 @@
-
+****
 
 # KMP
 
@@ -153,7 +153,7 @@ KMP알고리즘은 DP를 이용해 찾고자 하는 패턴 내에서 각 부분 
 
 `j = 1`
 
-전 단계에서 일치했기 때문에 추가 일치 여부를 판단하기 위해 `j`도 같이 증가했다.
+전 단계에서 일치했기 때문에 추가 일치 여부를 판단하기 위해 `j`도 같이 증가한다.
 
 하지만 `pattern[i] != pattern[j]` , 
 
@@ -201,11 +201,131 @@ KMP알고리즘은 DP를 이용해 찾고자 하는 패턴 내에서 각 부분 
 
 `pattern[i] == pattern[j]` 이므로, `j += 1`
 
-:arrow_right: `p[4] = j = 2`
+:arrow_right: `p[5] = j = 2`
 
 |      | 0    | 1    | 2    | 3    | 4    | 5    |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | p    | 0    | 0    | 0    | 1    | 1    | 2    |
+
+
+
+### 구현
+
+위 방법을 이용한 테이블 제작 구현
+
+```python
+def make_kmp_table(keyword, table):
+    table[0] = 0
+    
+    i = 1
+    cnd = 0
+
+    while (i < len(keyword)):
+        if keyword[i] == keyword[cnd]:
+            cnd += 1
+            table[i] = cnd
+            i += 1
+        elif cnd > 0:
+            cnd = table[cnd-1]
+        else:
+            table[i] = 0
+            i += 1
+```
+
+
+
+## KMP
+
+위 테이블이 구해졌다고 가정하고, 어떤 방법으로 이용하는지 살펴보면
+
+찾을 패턴 `ABBAAB`에 대해
+
+|      | 0    | 1    | 2    | 3    | 4    | 5    |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| p    | 0    | 0    | 0    | 1    | 1    | 2    |
+
+
+
+|       |   A   |   B   |   B   |   A   |   B   |   B   |  A   |  B   |  A   |  A   |  B   |  B   |  A   |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| **r** |   <   |   =   |   =   |   =   |  변   |  화   |  구  |  간  |  =   |  =   |  =   |  =   |  >   |
+| **k** |   <   |  변   |  화   |  구   |  간   |   >   |      |      |      |      |      |      |      |
+|       | **A** | **B** | **B** | **A** | **A** | **B** |      |      |      |      |      |      |      |
+
+대상 데이터의 인덱스 `r`과 키워드의 인덱스 `k`에 대해서 
+
+초기값 `r = 0` `k = 0`
+
+
+
+1. 일치하는 경우 | `keyword[k] == reference[r]`
+
+   나머지 일치 여부를 판단하기 위해
+
+   `r += 1` `k += 1`
+
+   
+
+   - 일치하고 패턴의 마지막인 경우 | `k == len(keyword)`
+
+     이 경우 패턴을 찾았기 때문에 원하는 형태로 정보를 저장한다
+
+     ex) 데이터 내에서 패턴의 시작 인덱스 :  `r-k` 
+
+     **+**
+
+     중복탐색 없이 다음 탐색을 지속하기 위해 `keyword`의 인덱스 `k = table[k-1]` 로 옮긴다.
+
+     `table[k-1]`에는 " `접미사와 일치하는 가장 긴 길이의 접두사 마지막 인덱스` " 가 들어있기 때문에 `0`으로 돌아가 필요없는 탐색을 없앨 수 있으며, 이를 위해 `table`을 제작한 것이다.
+
+2. 일치하지 않는 경우
+
+   - 패턴의 처음부터 일치하지 않는 경우 | `k == 0`
+
+     데이터의 인덱스만 증가시켜 탐색을 계속한다
+
+     `r += 1`
+
+   - 패턴의 중간에서 일치하지 않는 경우
+
+     데이터의 인덱스 `r`은 해당지점이 `keyword`의 접두사의 일부일 수 있기 때문에 변하지 않는다.
+
+     패턴의 인덱스 `k`는 `k = table[k-1]`로 이동해 중복탐색을 없앤다.
+
+### 구현
+
+구해진 전처리 테이블 `table`과 찾을 문자열 `keyword`,  탐색대상 `reference`, 찾은 결과를 `index`에 저장한다고 할 때
+
+```python
+def kmp(keyword, table, reference):
+    index = []
+    r = 0
+    k = 0
+    len_k = len(keyword)
+    len_r = len(reference)
+    while r < len_r:
+        if keyword[k] == reference[r]:
+            r += 1
+            k += 1
+            if k == len_k:
+           			index.append(r-k)
+            		k = table[k-1]
+        else:
+        		if k:
+                k = table[k-1]
+            else:
+              	r += 1
+                
+    return index
+```
+
+위와 같이 구현할 수 있다.
+
+
+
+## 추가
+
+만약 패턴이 메타문자 `*`와 함께 주어지고, `*` 자리에는 어떤 문자가 와도 매칭된다고 할 때 위 알고리즘에서 간단한 조건 추가로 만들 수 있다.
 
 
 
@@ -233,85 +353,21 @@ def kmp(keyword, table, reference):
     k = 0
     len_k = len(keyword)
     len_r = len(reference)
-    cnt = 0
     while r < len_r:
         if keyword[k] == reference[r] or keyword[k] == '*':
             r += 1
             k += 1
+            if k == len_k:
+           			index.append(r-k)
+            		k = table[k-1]
         else:
-            if k == 0:
-                r += 1
-            else:
+        		if k:
                 k = table[k-1]
-
-        if k == len_k:
-            index.append(r-k+1)
-            cnt += 1
-            k = table[k-1]
-
-    print(cnt)
-    for i in index:
-        print(i)
-
-T = input()
-P = input()
-table = [0] * len(P)
-make_kmp_table(P, table)
-kmp(P, table, T)
-
-```
-
-
-
-```
-def make_kmp_table(keyword, table):
-    table[0] = 0
-    
-    i = 1
-    cnd = 0
-
-    while (i < len(keyword)):
-        if keyword[i] == keyword[cnd] or keyword[i] == '*' or keyword[cnd] == '*':
-            cnd += 1
-            table[i] = cnd
-            i += 1
-        elif cnd > 0:
-            cnd = table[cnd-1]
-        else:
-            table[i] = 0
-            i += 1
-
-def kmp(keyword, table, reference):
-    index = []
-    r = 0
-    k = 0
-    len_k = len(keyword)
-    len_r = len(reference)
-    cnt = 0
-    while r < len_r:
-        if keyword[k] == reference[r] or keyword[k] == '*':
-            r += 1
-            k += 1
-        else:
-            if k == 0:
-                r += 1
             else:
-                k = table[k-1]
-
-        if k == len_k:
-            index.append(r-k+1)
-            cnt += 1
-            k = table[k-1]
-
-    print(cnt)
-    for i in index:
-        print(i)
-
-T = input()
-P = input()
-table = [0] * len(P)
-make_kmp_table(P, table)
-kmp(P, table, T)
-
+              	r += 1
+                
+    return index
 ```
+
+
 
