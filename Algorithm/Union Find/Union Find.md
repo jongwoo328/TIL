@@ -11,7 +11,7 @@ Union Find 알고리즘은 모든 원소가 하나의 그룹에만 속한다고 
 1 ~ 10 까지의 원소가 있다고 가정한다.
 
 ```python
-element = [1, 2, 3, 4, 5, 6, 7, 8]
+elements = [1, 2, 3, 4, 5, 6, 7, 8]
 ```
 
 
@@ -21,7 +21,7 @@ element = [1, 2, 3, 4, 5, 6, 7, 8]
 이 때 각 원소의 부모노드를 자기 자신으로 설정하여 초기화 한다.
 
 ```python
-parent = [element[i] for i in range(len(element))]
+parent = [element for element in elements]
 ```
 
 이제 각 원소의 부모노드가 `root`이고, 이제 원소 n 이 속한 트리의 `root`를 `parent[n]`으로 접근한다.
