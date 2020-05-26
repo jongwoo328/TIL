@@ -260,8 +260,8 @@ selected[0] = 1
 
 # 아래 과정을 정점 수 만큼 반복
 for _ in range(1, V+1):
-  	# 방문하지 않았으면서, 알려진 거리가 가장 짧은 노드를
-   	# min_node에 저장
+    # 방문하지 않았으면서, 알려진 거리가 가장 짧은 노드를
+    # min_node에 저장
     min_value = float('inf')
     min_node = 0
     for i in range(1, V+1):
