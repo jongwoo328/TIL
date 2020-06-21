@@ -50,11 +50,11 @@
 
 ## 4. Algorithm
 
-> Permutation & Combination (작성 중)
+> Permutation & Combination
 >
 > Searching
 >
-> Sorting
+> Sorting (작성 중)
 >
 > Subset
 >
