@@ -57,7 +57,7 @@
 
 5. Django용 DB 생성
 
-   ```sql
+   ```mysql
    create databse {DB이름} owner {유저이름} encoding 'utf-8';
    ```
 
