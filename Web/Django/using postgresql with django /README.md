@@ -49,7 +49,7 @@
    > 비밀번호는 따옴표로 감쌀것
 
    ```sql
-   postgres=# create user {유저이름} with password '{비밀번호}';
+   create user {유저이름} with password '{비밀번호}';
    ```
    - 생성한 유저로 로그인하기
    ```console
@@ -58,15 +58,15 @@
 5. Django용 DB 생성
 
    ```sql
-   postgres=# create databse {DB이름} owner {유저이름} encoding 'utf-8';
+   create databse {DB이름} owner {유저이름} encoding 'utf-8';
    ```
 
 6. 유저 설정
 
    ```sql
-   postgres=# alter role {유저이름} set client_encoding to 'utf-8';
-   postgres=# alter role {유저이름} set timezone to 'Asia/Seoul';
-   postgres=# grant all privileges on database {DB이름} to {유저이름};
+   alter role {유저이름} set client_encoding to 'utf-8';
+   alter role {유저이름} set timezone to 'Asia/Seoul';
+   grant all privileges on database {DB이름} to {유저이름};
    ```
    
 7. 종료
