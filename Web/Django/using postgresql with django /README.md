@@ -1,6 +1,6 @@
 # Django와 PostgreSQL 연동시키기
 
-추후 참고용으로 기록하기로 함
+추후 참고용으로 기록
 
 > Docker PostgreSQL을 이용하는 경우
 
@@ -51,6 +51,9 @@
    ```sql
    postgres=# create user {유저이름} with password '{비밀번호}';
    ```
+   - 생성한 유저로 로그인하기
+   ```console
+   postgres@2ea39d7de38c:/$ psql -U {유저이름} {DB이름} -W -h localhost
 
 5. Django용 DB 생성
 
@@ -65,7 +68,7 @@
    postgres=# alter role {유저이름} set timezone to 'Asia/Seoul';
    postgres=# grant all privileges on database {DB이름} to {유저이름};
    ```
-
+   
 7. 종료
 
    ```console
