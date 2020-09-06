@@ -67,6 +67,8 @@ nginx의 signal에 대해 더 자세한 정보는 [Control](https://nginx.org/en
 
 nginx는 configuration file에 적힌 directives(지시자)들에 의해 제어되는 모듈들로 이루어져 있다. 이런 directive는 simple directive와 block directive로 나뉜다. simple directive는 공백으로 구분된 이름과 값으로 구성되어있고, 세미콜론(;)으로 끝나야 한다. block directive는 simple directive와 구조는 같지만 세미콜론(;) 대신 중괄호({})로 감싸진 명령들로 끝나야 한다. block directive가 중괄호 안에서 다른 directive를 가지는 경우에( ex: [events](https://nginx.org/en/docs/ngx_core_module.html#events), [http](https://nginx.org/en/docs/http/ngx_http_core_module.html#http), [server](https://nginx.org/en/docs/http/ngx_http_core_module.html#server), [location](https://nginx.org/en/docs/http/ngx_http_core_module.html#location)) 이 block directive를 context라고 한다.
 
+
+
 configuration file의 directive 중 어떠한 context 내에도 속해있지 않은 directive를 main context라고 한다. `events`와 `http` directive는 main context 내부에, `server`는 `http` 내부에, `location`은 `server` 내부에 존재한다.
 
 `#` 로 시작하는 줄은 주석으로 간주한다.
@@ -132,6 +134,8 @@ server {
 
 이 것은 표준 80번 포트를 수신하는 서버에서 이미 작동 중인 설정이고 로컬에서는 `http://localhost/`로 접근할 수 있다. `/images`로 시작하는 URI의 응답에서 서버는 `/data/images/` 디렉토리의 파일을 제공할 것이다. 예를들어 `http://localhost/images/example.png` 요청의 응답으로 nginx는 `/data/images/example.png` 파일을 보낼 것이다. 만약 해당하는 파일이 존재하지 않는다면 nginx는 404에러를 보낸다. 반대로 `/images/`로 시작하지 않는 URI를 가진 요청은 `/data/www` 디렉토리로 연결되어 `http://localhost/some/example.html` 의 요청에 `/data/www/some/example.html` 파일을 응답할 것이다.
 
+
+
 아직 nginx를 시작하지 않았다면 새 configuration을 적용하기 위해 시작하고, 이미 시작한 상태라면 `reload` signal을 nginx master process에 보낸다
 
 `nginx -s reload`
@@ -141,4 +145,82 @@ server {
 
 
 ## 간단한 프록시 서버 설정하기
+
+nginx를 사용하는 이유 중 하나는 서버가 받은 요청을 다른 서버로 넘겨주고, 다시 응답을 받아서 클라이언트로 보내주는 프록시 서버로 사용하기 위함이다. 
+
+여기서 로컬 디렉토리에 있는 이미지 파일은 제공하고, 다른 모든 요청은 프록시 서버가 대상 서버로 넘겨 줄 기본적인 프록시 서버를 구성할 것이다. 이 예시에서, 두 서버는 모두 하나의 nginx instance로 정의될 것이다.
+
+첫번째로, nginx configuration 파일에 `server` block을 추가한다.
+
+```nginx
+server {
+  listen 8080;
+  root /data/up1;
+  
+  location / {
+  }
+}
+```
+
+
+
+이것은 8080 포트를 수신하는 간단한 서버이다. (전 예시에서는 표준 80포트를 수신했기 때문에 `listen` directive를 사용하지 않았다.)  그리고 모든 요청은 `/data/up1` 디렉토리로 연결된다. `/data/up1`을 만들고 `index.html`을 넣는다. `root` directive가 `server` context에 있다는 것을 기억하라. 이런 `root` directive는 `location` block이 자신만의 `root` directive를 정의하지 않았을 때 이용된다.
+
+
+
+다음으로, 이전 예시의 서버 configuration을 프록시 서버로 사용하기 위해 수정한다. 첫 `location` block을[proxy_pass](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) directive를 사용해 수정한다. 프록시 대상 서버의 이름과 포트는 매개변수로 명시된다. (여기서는 `http://localhost:8080`)
+
+```nginx
+server {
+  location / {
+    proxy_pass http://localhost:8080;
+  }
+  
+  location /images/ {
+    root /data;
+  }
+}
+```
+
+
+
+여기서 두 번째 `location` block을 특정한 파일 확장자만 매칭해 주기 위해 수정할 것이다. 아래와 같이 수정된다.
+
+```nginx
+location ~ \.(gif|jpg|png)$ {
+  root /data/images;
+}
+```
+
+이 매개변수는 정규 표현식으로 `.gif` `.jpg` `.png` 로 끝나는 모든 URI를 매칭한다. 정규 표현식은 `~` 뒤에 위치해야 하며 이 표현식에 맞는 요청은 `/data/images` 디렉토리로 매칭될 것이다.
+
+
+
+nginx가 요청에 대한 응답을 전송할 `location` block 을 선택하면 가장 긴 매개변수를 갖는 `location` directive를 검사한다. 만약 정규 표현식으로 매칭되는 경우, 해당하는 `location`을 선택하고 그렇지 않으면 그 전에 기억했던 `location`으로 돌아갈 것이다.
+
+여기서 프록시 서버의 configuration 결과는 아래와 같다
+
+```nginx
+server {
+  location / {
+    proxy_pass http://localhost:8080/;
+  }
+  
+  location ~ \.(gif|jpg|png)$ {
+    root /data/images;
+  }
+}
+```
+
+
+
+이 서버는 `.gif` `.jpg` `.png` 로 끝나는 요청들만 걸러내어 `/data/images` 디렉토리로 매칭하고 모든 다른 요청은 위에 설정했던 프록시 대상 서버로 전송할 것이다. 
+
+새 configuration을 적용하기 위해 이전에 했던것 처럼  `reload` signal을 보낸다. 
+
+이 예시에서 했던 directive 말고도 프록시 서버 연결을 위한 더 [많은](https://nginx.org/en/docs/http/ngx_http_proxy_module.html) directive가 존재한다.
+
+
+
+## FastCGI 프록시 설정하기
 
