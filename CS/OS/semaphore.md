@@ -78,9 +78,11 @@
 | `semaphore`가 1이면 1 감소시키고 수행, 0이면 대기 | `semaphore`가 1이면 1 감소시키고 수행, 0이면 대기 |
 |           `a`의 값을 증가 (`a = a + 1`)           |           `a`의 값을 감소 (`a = a - 1`)           |
 |           `a`의 값을 증가 (`a = a + 1`)           |           `a`의 값을 감소 (`a = a - 1`)           |
-|                   `semaphore++`                   |                   `semaphore++`                   |
+|                 `semaphore` 증가                  |                 `semaphore` 증가                  |
 |             `a`를 읽음 (`return a`)`              |             `a`를 읽음 (`return a`)`              |
 |                    기댓값 : 2                     |                    기댓값 : 0                     |
+
+> counting 방식의 semaphore를 이해하기 쉽게 ++, -- 를 사용한 증/감으로 표현했지만 semaphore에 접근하는 과정 자체에서 countext switching 되면 안되기 때문에 hardware로 값을정하는 atomic한 함수를 이용해야 한다.
 
 위와 같은 상황에서 아래처럼 처리될 것이다.
 
