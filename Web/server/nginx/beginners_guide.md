@@ -224,3 +224,26 @@ server {
 
 ## FastCGI 프록시 설정하기
 
+PHP처럼 서로 다른 프레임워크나 프로그래밍 언어로 짜여진 어플리케이션을 실행시키는 FastCGI 서버를 라우팅하기 위해 nginx를 사용할 수도 있다.
+
+nginx에서 FastCGI 서버를 사용하는데 가장 기본적인 configuration은 `proxy_pass`처럼 사용되는 [fastcgi_pass](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass) 와  FastCGI 서버로 넘겨줄 매개변수를 설정하는 [fastcgi_param](https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_param) directive이다.
+
+`localhost:9000`으로 접근할 수 있는 FastCGI서버가 있다고 하자. 전 예시에 사용했던 프록시 configuration에서 `proxy_pass`를 `fastcgi_pass`로 변경하고 값을 `localhost:9000`으로 설정한다. PHP에서는 `SCRIPT_FILENAME` 이라는 매개변수로 실행할 스크립트를 명시해주고 `QUERY_STRING` 매개변수로 request parameter를 전송한다. 그 결과는 아래와 같을 것이다.
+
+```nginx
+server {
+  location / {
+    fastcgi_pass localhost:9000;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param QUERY_STRING $query_string;
+  }
+  
+  location ~ \.(gif|jpg|png)$ {
+    root /data/images;
+  }
+}
+```
+
+
+
+이것으로 정적 이미지 요청을 제외한 모든 요청들은 프록시 대상 서버인 `localhost:9000` 으로 FastCGI 프로토콜을 통해 전송될 것이다.
